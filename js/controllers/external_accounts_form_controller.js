@@ -1,11 +1,9 @@
 rippleGatewayApp.controller('ExternalAccountsFormCtrl', [
-  '$scope',
-  'UserService',
-  '$timeout',
-  '$location',
-  '$routeParams',
-  'ApiService', function($scope, $user, $timeout, $location, $routeParams, $api) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $location, $routeParams, $api) {
+    if (!$user.isAdmin) {
+      $location.path('/login');
+    }
 
     $scope.account = {};
     $scope.messageState = '';
@@ -42,7 +40,7 @@ rippleGatewayApp.controller('ExternalAccountsFormCtrl', [
       $api.createExternalAccount($scope.account, function(err, res) {
         if (!err) {
           $scope.messageState = 'success';
-          $scope.successMessage = 'External account created.'
+          $scope.successMessage = 'External account created.';
 
           $timeout(function() {
             $location.path('/database/external_accounts');

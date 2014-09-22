@@ -1,10 +1,10 @@
 rippleGatewayApp.controller('ExternalAccountsCtrl', [
-  '$scope',
-  'UserService',
-  '$location',
-  'ApiService',
-  '$window', function($scope, $user, $location, $api, $window) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+    '$scope', 'UserService', '$location', 'ApiService', '$window',
+    function($scope, $user, $location, $api, $window) {
+
+    if (!$user.isAdmin) {
+      $location.path('/login');
+    }
 
     $scope.accounts = [];
 
@@ -15,8 +15,8 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     });
 
     $scope.deleteExternalAccount = function(index) {
-      var account = $scope.accounts[index];
-      var confirmed = $window.confirm('Are you sure?')
+      var account = $scope.accounts[index],
+          confirmed = $window.confirm('Are you sure?');
 
       if (confirmed) {
         $api.deleteExternalAccount(account.id, function(err, res) {

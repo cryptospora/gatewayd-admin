@@ -1,11 +1,9 @@
 rippleGatewayApp.controller('KycDataFormCtrl', [
-  '$scope',
-  'UserService',
-  '$timeout',
-  '$location',
-  '$routeParams',
-  'ApiService', function($scope, $user, $timeout, $location, $routeParams, $api) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $location, $routeParams, $api) {
+    if (!$user.isAdmin) {
+      $location.path('/login');
+    }
 
     $scope.datum = {};
     $scope.messageState = '';

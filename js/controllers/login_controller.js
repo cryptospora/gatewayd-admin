@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('LoginCtrl', ['$scope', 'UserService', '$location', function($scope, $user, $location) {
 
   $scope.login = function() {
-    var password = $scope.user.password;
-    var name = $scope.user.name;
+    var password = $scope.user.password,
+        name = $scope.user.name;
 
     $user.login(name, password, function(err, user) {
       
@@ -27,6 +27,5 @@ rippleGatewayApp.controller('LoginCtrl', ['$scope', 'UserService', '$location', 
         }
       } 
     });
-  }
+  };
 }]);
-

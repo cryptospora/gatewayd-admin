@@ -1,10 +1,9 @@
 rippleGatewayApp.controller('PoliciesCtrl', [
-  '$scope',
-  'UserService',
-  '$location',
-  'ApiService',
-  '$window', function($scope, $user, $location, $api, $window) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+  '$scope', 'UserService', '$location', 'ApiService', '$window',
+  function($scope, $user, $location, $api, $window) {
+    if (!$user.isAdmin) {
+      $location.path('/login');
+    }
 
     $scope.policies = [];
 
@@ -15,8 +14,8 @@ rippleGatewayApp.controller('PoliciesCtrl', [
     });
 
     $scope.deletePolicy = function(index) {
-      var policy = $scope.policies[index];
-      var confirmed = $window.confirm('Are you sure?')
+      var policy = $scope.policies[index],
+          confirmed = $window.confirm('Are you sure?');
 
       if (confirmed) {
         $api.deletePolicy(policy.id, function(err, res) {

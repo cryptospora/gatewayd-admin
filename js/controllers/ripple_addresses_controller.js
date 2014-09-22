@@ -1,10 +1,9 @@
 rippleGatewayApp.controller('RippleAddressesCtrl', [
-  '$scope',
-  'UserService',
-  '$location',
-  'ApiService',
-  '$window', function($scope, $user, $location, $api, $window) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+  '$scope', 'UserService', '$location', 'ApiService', '$window',
+  function($scope, $user, $location, $api, $window) {
+    if (!$user.isAdmin) {
+      $location.path('/login');
+    }
 
     $scope.addresses = [];
 
@@ -15,8 +14,8 @@ rippleGatewayApp.controller('RippleAddressesCtrl', [
     });
 
     $scope.deleteRippleAddress = function(index) {
-      var address = $scope.addresses[index];
-      var confirmed = $window.confirm('Are you sure?')
+      var address = $scope.addresses[index],
+          confirmed = $window.confirm('Are you sure?');
 
       if (confirmed) {
         $api.deleteRippleAddress(address.id, function(err, res) {

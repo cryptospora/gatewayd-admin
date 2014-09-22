@@ -1,10 +1,9 @@
 rippleGatewayApp.controller('KycDataCtrl', [
-  '$scope',
-  'UserService',
-  '$location',
-  'ApiService',
-  '$window', function($scope, $user, $location, $api, $window) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+  '$scope', 'UserService', '$location', 'ApiService', '$window',
+  function($scope, $user, $location, $api, $window) {
+    if (!$user.isAdmin) {
+      $location.path('/login');
+    }
 
     $scope.data = [];
 
@@ -15,8 +14,8 @@ rippleGatewayApp.controller('KycDataCtrl', [
     });
 
     $scope.deleteKycDatum = function(index) {
-      var datum = $scope.data[index];
-      var confirmed = $window.confirm('Are you sure?')
+      var datum = $scope.data[index],
+          confirmed = $window.confirm('Are you sure?');
 
       if (confirmed) {
         $api.deleteKycDatum(datum.id, function(err, res) {

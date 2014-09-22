@@ -2,6 +2,164 @@ var rippleGatewayApp = angular.module('rippleGatewayApp', [
   'ngRoute'
 ]);
 
+rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise("/login");
+
+    $stateProvider
+      .state('login', {
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .state('setup', {
+        url: '/setup',
+        controller: 'SetupCtrl',
+        templateUrl: 'views/setup.html'
+      })
+      .state('register', {
+        url: '/register',
+        controller: 'RegistrationCtrl',
+        templateUrl: 'views/register.html'
+      })
+      .state('overview', {
+        url: '/overview',
+        controller: 'AdminCtrl',
+        templateUrl: 'views/admin/overview.html'
+      })
+      .state('deposits', {
+        url: '/deposits',
+        controller: 'AdminCtrl',
+        templateUrl: 'views/admin/deposits.html'
+      })
+      .state('withdrawals', {
+        url: '/withdrawals',
+        controller: 'AdminCtrl',
+        templateUrl: 'views/admin/withdrawals.html'
+      })
+      .state('users', {
+        url: '/users',
+        controller: 'AdminCtrl',
+        templateUrl: 'views/admin/users.html'
+      })
+      .state('users.user', {
+        url: '/users/:id',
+        controller: 'AdminCtrl',
+        templateUrl: 'views/admin/user.html'
+      })
+      .state('account', {
+        url: '/account',
+        controller: 'UserCtrl',
+        templateUrl: 'views/user/account.html'
+      })
+      .state('deposit', {
+        url: '/deposit',
+        controller: 'AccountCtrl',
+        templateUrl: 'views/user/deposit.html'
+      })
+      .state('withdraw', {
+        url: '/withdraw',
+        controller: 'AccountCtrl',
+        templateUrl: 'views/user/withdraw.html'
+      })
+      .state('database.external_accounts', {
+        url: '/database/external_accounts',
+        controller: 'ExternalAccountsCtrl',
+        templateUrl: '/views/database/externalAccounts.html'
+      })
+      .state('database.external_accounts.new', {
+        url: '/database/external_accounts/new',
+        controller: 'NewExternalAccountsCtrl',
+        templateUrl: '/views/database/newExternalAccounts.html'
+      })
+      .state('database.external_transactions', {
+        url: '/database/external_transactions',
+        controller: 'ExternalTransactionsCtrl',
+        templateUrl: '/views/database/externalTransactions.html'
+      })
+      .state('database.external_transactions.new', {
+        url: '/database/external_transactions/new',
+        controller: 'NewExternalTransactionsCtrl',
+        templateUrl: '/views/database/newExternalTransactions.html'
+      })
+      .state('database.gateway_transactions', {
+        url: '/database/gateway_transactions',
+        controller: 'GatewayTransactionsCtrl',
+        templateUrl: '/views/database/gatewayTransactions.html'
+      })
+      .state('/database/gateway_transactions/new', {
+        url: '/database/gateway_transactions/new',
+        controller: 'NewGatewayTransactionsCtrl',
+        templateUrl: '/views/database/newGatewayTransactions.html'
+      })
+      .state('database.kyc_data', {
+        url: '/database/kyc_data',
+        controller: 'KycDataCtrl',
+        templateUrl: '/views/database/kycData.html'
+      })
+      .state('database.kyc_data/new', {
+        url: '/database/kyc_data/new',
+        controller: 'NewKycDataCtrl',
+        templateUrl: '/views/database/newKycData.html'
+      })
+      .state('database.policies', {
+        url: '/database/policies',
+        controller: 'PoliciesCtrl',
+        templateUrl: '/views/database/policies.html'
+      })
+      .state('database.policies.new', {
+        url: '/database/policies/new',
+        controller: 'NewPoliciesCtrl',
+        templateUrl: '/views/database/newPolicies.html'
+      })
+      .state('database.ripple_addresses', {
+        url: '/database/ripple_addresses',
+        controller: 'RippleAddressesCtrl',
+        templateUrl: '/views/database/rippleAddresses.html'
+      })
+      .state('database.ripple_addresses.new', {
+        url: '/database/ripple_addresses/new',
+        controller: 'RippleAddressesFormCtrl',
+        templateUrl: '/views/database/rippleAddressesForm.html'
+      })
+      .state('database.ripple_addresses.update', {
+        url: '/database/ripple_addresses/:id/update',
+        controller: 'RippleAddressesFormCtrl',
+        templateUrl: '/views/database/rippleAddressesForm.html'
+      })
+      .state('database.ripple_transactions', {
+        url: '/database/ripple_transactions',
+        controller: 'RippleTransactionsCtrl',
+        templateUrl: '/views/database/rippleTransactions.html'
+      })
+      .state('database.ripple_transactions.new', {
+        url: '/database/ripple_transactions/new',
+        controller: 'RippleTransactionsFormCtrl',
+        templateUrl: '/views/database/rippleTransactionsForm.html'
+      })
+      .state('database.ripple_transactions.update', {
+        url: '/database/ripple_transactions/:id/update',
+        controller: 'RippleTransactionsFormCtrl',
+        templateUrl: '/views/database/rippleTransactionsForm.html'
+      })
+      .state('database.users', {
+        url: '/database/users',
+        controller: 'UsersCtrl',
+        templateUrl: '/views/database/users.html'
+      })
+      .state('database.users.:id.update', {
+        url: '/database/users/:id/update',
+        controller: 'UsersFormCtrl',
+        templateUrl: '/views/database/usersForm.html'
+      })
+      .state('database.users.new', {
+        url: '/database/users/new',
+        controller: 'NewUsersCtrl',
+        templateUrl: '/views/database/newUsers.html'
+      });
+  }
+]);
+/*
 rippleGatewayApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
