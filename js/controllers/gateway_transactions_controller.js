@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('GatewayTransactionsCtrl', [
-  '$scope', 'UserService', '$location', 'ApiService', '$window',
-  function($scope, $user, $location, $api, $window) {
+  '$scope', 'UserService', '$state', 'ApiService', '$window',
+  function($scope, $user, $state, $api, $window) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.transactions = [];
@@ -27,6 +27,6 @@ rippleGatewayApp.controller('GatewayTransactionsCtrl', [
     };
 
     $scope.updateGatewayTransaction = function(index) {
-      $location.path('/database/gateway_transactions/' + $scope.transactions[index].id + '/update');
+      $state.go('database.gateway_transactions.update', {id: $scope.transactions[index].id});
     };
 }]);

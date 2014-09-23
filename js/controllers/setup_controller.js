@@ -1,6 +1,6 @@
 rippleGatewayApp.controller('SetupCtrl', [
-  '$scope', '$location', 'ApiService', 'UserService',
-  function($scope, $location, $api, $user) {
+  '$scope', '$state', 'ApiService', 'UserService',
+  function($scope, $state, $api, $user) {
 
     //pre-fill default options
     $scope.setup = {
@@ -83,7 +83,7 @@ rippleGatewayApp.controller('SetupCtrl', [
               if (err) {
                 console.log('launc err', err);
               } else {
-                $location.path('/login');
+                $state.go('login');
                 console.log('started gateway', success);
               }
             });

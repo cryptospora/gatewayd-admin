@@ -1,13 +1,9 @@
 rippleGatewayApp.controller('AccountCtrl', [
-    '$scope', '$http', 'ApiService', '$location', 'UserService',
-    function($scope, $http, $api, $location, $user) {
+    '$scope', '$http', 'ApiService', 'UserService', '$state',
+    function($scope, $http, $api, $user, $state) {
 
   if (!$user.isLogged) {
-    $location.path('/login');
-  }
-
-  if ($user.isAdmin) {
-    $location.path('/admin');
+    $state.go('login');
   }
 
   var userId = $user.id;

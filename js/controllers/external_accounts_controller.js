@@ -1,13 +1,12 @@
 rippleGatewayApp.controller('ExternalAccountsCtrl', [
-    '$scope', 'UserService', '$location', 'ApiService', '$window',
-    function($scope, $user, $location, $api, $window) {
+    '$scope', 'UserService', 'ApiService', '$window', '$state',
+    function($scope, $user, $api, $window, $state) {
 
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.accounts = [];
-
     $api.getExternalAccounts(function(err, res) {
       if (!err) {
         $scope.accounts = res.external_accounts;
@@ -28,6 +27,6 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     $scope.updateExternalAccount = function(index) {
-      $location.path('/database/external_accounts/' + $scope.accounts[index].id + '/update');
+      $state.go('database.external_accounts.update', {id: $scope.accounts[index].id});
     };
 }]);

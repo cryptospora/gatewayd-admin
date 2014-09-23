@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('ExternalTransactionsFormCtrl', [
-  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
-  function($scope, $user, $timeout, $location, $routeParams, $api) {
+  '$scope', 'UserService', '$timeout', '$state', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $state, $routeParams, $api) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.transaction = {};
@@ -27,7 +27,7 @@ rippleGatewayApp.controller('ExternalTransactionsFormCtrl', [
           $scope.successMessage = 'External transaction updated.';
 
           $timeout(function() {
-            $location.path('/database/external_transactions');
+            $state.go('database.external_transactions');
           }, 1000);
         } else {
           $scope.messageState = 'error';
@@ -43,7 +43,7 @@ rippleGatewayApp.controller('ExternalTransactionsFormCtrl', [
           $scope.successMessage = 'External transaction updated.';
 
           $timeout(function() {
-            $location.path('/database/external_transactions');
+            $state.go('database.external_transactions');
           }, 1000);
         } else {
           $scope.messageState = 'error';

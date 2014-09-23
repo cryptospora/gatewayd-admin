@@ -1,6 +1,6 @@
 rippleGatewayApp.controller('MainCtrl', [
-  '$scope', '$rootScope', '$location', 'UserService', 'ApiService',
-  function($scope, $rootScope, $location, $user, $api) {
+  '$scope', '$rootScope', '$location', '$state', 'UserService', 'ApiService',
+  function($scope, $rootScope, $location, $state, $user, $api) {
     $scope.$on('$routeChangeStart', function(next, current) {
 
       /*
@@ -10,10 +10,10 @@ rippleGatewayApp.controller('MainCtrl', [
          if(error || !response.success){
            console.log('setup status error', error);
          } else if (!response.setup_complete) {
-           $location.path('/setup');
+           $state.go('setup');
          } else if (!$user.isLogged && $location.path() != '/register') {
            $rootScope.setupComplete = true;
-           $location.path("/login");
+           $state.go('login');
          }
        });
        */

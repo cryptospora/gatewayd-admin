@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('UsersFormCtrl', [
-  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
-  function($scope, $user, $timeout, $location, $routeParams, $api) {
+  '$scope', 'UserService', '$timeout', '$state', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $state, $routeParams, $api) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.user = {};
@@ -27,7 +27,7 @@ rippleGatewayApp.controller('UsersFormCtrl', [
           $scope.successMessage = 'User updated.';
 
           $timeout(function() {
-            $location.path('/database/users');
+            $state.go('database.users');
           }, 1000);
         } else {
           $scope.messageState = 'error';
@@ -43,7 +43,7 @@ rippleGatewayApp.controller('UsersFormCtrl', [
           $scope.successMessage = 'User updated.';
 
           $timeout(function() {
-            $location.path('/database/users');
+            $state.go('database.users');
           }, 1000);
         } else {
           $scope.messageState = 'error';

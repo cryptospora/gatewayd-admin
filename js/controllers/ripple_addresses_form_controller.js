@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('RippleAddressesFormCtrl', [
-  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
-  function($scope, $user, $timeout, $location, $routeParams, $api) {
+  '$scope', 'UserService', '$timeout', '$state', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $state, $routeParams, $api) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.address = {};
@@ -27,7 +27,7 @@ rippleGatewayApp.controller('RippleAddressesFormCtrl', [
           $scope.successMessage = 'Ripple address updated.';
 
           $timeout(function() {
-            $location.path('/database/ripple_addresses');
+            $state.go('database.ripple_addresses');
           }, 1000);
         } else {
           $scope.messageState = 'error';
@@ -43,7 +43,7 @@ rippleGatewayApp.controller('RippleAddressesFormCtrl', [
           $scope.successMessage = 'Ripple address updated.';
 
           $timeout(function() {
-            $location.path('/database/ripple_addresses');
+            $state.go('database.ripple_addresses');
           }, 1000);
         } else {
           $scope.messageState = 'error';

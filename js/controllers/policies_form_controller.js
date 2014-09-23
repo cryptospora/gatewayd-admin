@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('PoliciesFormCtrl', [
-  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
-  function($scope, $user, $timeout, $location, $routeParams, $api) {
+  '$scope', 'UserService', '$timeout', '$state', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $state, $routeParams, $api) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.policy = {};
@@ -27,7 +27,7 @@ rippleGatewayApp.controller('PoliciesFormCtrl', [
           $scope.successMessage = 'Policy updated.';
 
           $timeout(function() {
-            $location.path('/database/policies');
+            $state.go('database.policies');
           }, 1000);
         } else {
           $scope.messageState = 'error';
@@ -43,7 +43,7 @@ rippleGatewayApp.controller('PoliciesFormCtrl', [
           $scope.successMessage = 'Policy updated.';
 
           $timeout(function() {
-            $location.path('/database/policies');
+            $state.go('database.policies');
           }, 1000);
         } else {
           $scope.messageState = 'error';

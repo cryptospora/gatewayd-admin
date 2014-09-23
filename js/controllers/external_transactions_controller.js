@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('ExternalTransactionsCtrl', [
-  '$scope', 'UserService', '$location', 'ApiService', '$window',
-  function($scope, $user, $location, $api, $window) {
+  '$scope', 'UserService', '$state', 'ApiService', '$window',
+  function($scope, $user, $state, $api, $window) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.transactions = [];
@@ -28,6 +28,6 @@ rippleGatewayApp.controller('ExternalTransactionsCtrl', [
     };
 
     $scope.updateExternalTransaction = function(index) {
-      $location.path('/database/external_transactions/' + $scope.transactions[index].id + '/update');
+      $state.go('database.external_transactions.update', {id: $scope.transactions[index].id});
     };
 }]);

@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('KycDataFormCtrl', [
-  '$scope', 'UserService', '$timeout', '$location', '$routeParams', 'ApiService',
-  function($scope, $user, $timeout, $location, $routeParams, $api) {
+  '$scope', 'UserService', '$timeout', '$state', '$routeParams', 'ApiService',
+  function($scope, $user, $timeout, $state, $routeParams, $api) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.datum = {};
@@ -27,7 +27,7 @@ rippleGatewayApp.controller('KycDataFormCtrl', [
           $scope.successMessage = 'KYC Data updated.';
 
           $timeout(function() {
-            $location.path('/database/kyc_data');
+            $state.go('database.kyc_data');
           }, 1000);
         } else {
           $scope.messageState = 'error';
@@ -43,7 +43,7 @@ rippleGatewayApp.controller('KycDataFormCtrl', [
           $scope.successMessage = 'KYC Data updated.';
 
           $timeout(function() {
-            $location.path('/database/kyc_data');
+            $state.go('database.kyc_data');
           }, 1000);
         } else {
           $scope.messageState = 'error';

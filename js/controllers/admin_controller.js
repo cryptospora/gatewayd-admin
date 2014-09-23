@@ -1,13 +1,14 @@
 rippleGatewayApp.controller('AdminCtrl', [
-  '$scope', '$http', '$location', '$window', 'UserService', 'ApiService',
-  function($scope, $http, $location, $window, $user, $api){
+  '$scope', '$http', '$state', '$window', 'UserService', 'ApiService',
+  function($scope, $http, $state, $window, $user, $api){
 
   if (!$user.isAdmin) {
-    $location.path('/login');
+    $state.go('login');
   }
 
+  // todo: remove this?
   $scope.path = function() {
-    $location.path();
+    $state.path();
   };
 
   $scope.externalTransactions = [];

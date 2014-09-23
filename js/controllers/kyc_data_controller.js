@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('KycDataCtrl', [
-  '$scope', 'UserService', '$location', 'ApiService', '$window',
-  function($scope, $user, $location, $api, $window) {
+  '$scope', 'UserService', '$state', 'ApiService', '$window',
+  function($scope, $user, $state, $api, $window) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.data = [];
@@ -27,6 +27,6 @@ rippleGatewayApp.controller('KycDataCtrl', [
     };
 
     $scope.updateKycDatum = function(index) {
-      $location.path('/database/kyc_data/' + $scope.data[index].id + '/update');
+      $state.go('database.kyc_data.update', {id: $scope.data[index].id});
     };
 }]);

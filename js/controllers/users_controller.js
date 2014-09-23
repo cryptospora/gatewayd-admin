@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('UsersCtrl', [
-  '$scope', 'UserService', '$location', 'ApiService', '$window',
-  function($scope, $user, $location, $api, $window) {
+  '$scope', 'UserService', '$state', 'ApiService', '$window',
+  function($scope, $user, $state, $api, $window) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.users = [];
@@ -27,6 +27,6 @@ rippleGatewayApp.controller('UsersCtrl', [
     };
 
     $scope.updateUser = function(index) {
-      $location.path('/database/users/' + $scope.users[index].id + '/update');
+      $state.go('database.users.update', {id: $scope.users[index].id});
     };
 }]);

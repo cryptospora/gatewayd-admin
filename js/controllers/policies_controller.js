@@ -1,8 +1,8 @@
 rippleGatewayApp.controller('PoliciesCtrl', [
-  '$scope', 'UserService', '$location', 'ApiService', '$window',
-  function($scope, $user, $location, $api, $window) {
+  '$scope', 'UserService', '$state', 'ApiService', '$window',
+  function($scope, $user, $state, $api, $window) {
     if (!$user.isAdmin) {
-      $location.path('/login');
+      $state.go('login');
     }
 
     $scope.policies = [];
@@ -27,6 +27,6 @@ rippleGatewayApp.controller('PoliciesCtrl', [
     };
 
     $scope.updatePolicy = function(index) {
-      $location.path('/database/policies/' + $scope.policies[index].id + '/update');
+      $state.go('database.policies.update', {id: $scope.policies[index].id});
     };
 }]);
