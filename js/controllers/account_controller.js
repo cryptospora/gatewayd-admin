@@ -29,11 +29,14 @@ rippleGatewayApp.controller('AccountCtrl', [
   function getUserWithdrawalAddress(fn) {
     $http({ method: 'GET', url: "/v1/users/"+$user.id+"/ripple_addresses" })
     .success(function(response, status, headers, config) {
-      var rippleAddresses = response.rippleAddresses;
+      var rippleAddresses = response.rippleAddresses,
+          hostedAddress, address;
+
       if (rippleAddresses) {
-        var hostedAddress = null;  
+        hostedAddress = null;
+
         for (var i=0; i<rippleAddresses.length; i++) {
-          var address = rippleAddresses[i];
+          address = rippleAddresses[i];
           console.log(address);
 
           if (!hostedAddress && address.type == "hosted") {

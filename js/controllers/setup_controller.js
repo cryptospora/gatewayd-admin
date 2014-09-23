@@ -33,13 +33,16 @@ rippleGatewayApp.controller('SetupCtrl', [
       $scope.pollProgress();
 
       $api.setup({ config: $scope.setup }, function(error, response) {
+        var error = error || null,
+            errors;
+
         if (error) {
           $scope.errors = {};
-          var errors = error.errors;
+          errors = error.errors;
           console.log('error.errors', errors);
 
           for (i in errors) {
-            var error = errors[i];
+            error = errors[i];
             console.log('ERROR', error);
             $scope.errors[error.field] = error.message;
           }
