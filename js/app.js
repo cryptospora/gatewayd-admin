@@ -66,14 +66,24 @@ rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: '/views/database/externalAccounts.html'
       })
       .state('database.external_accounts.new', {
-        url: '/new',
-        controller: 'ExternalAccountsFormCtrl',
-        templateUrl: '/views/database/externalAccountsForm.html'
+        data: {
+          type: 'create'
+        },
+        views: {
+          "account-form": {
+            controller: 'ExternalAccountsCtrl',
+            templateUrl: '/views/database/externalAccountsForm.html' }
+        }
       })
       .state('database.external_accounts.update', {
-        url: '/:id/update',
-        controller: 'ExternalAccountsFormCtrl',
-        templateUrl: '/views/database/externalAccountsForm.html'
+        data: {
+          type: 'update'
+        },
+        views: {
+          "account-form": {
+            controller: 'ExternalAccountsCtrl',
+            templateUrl: '/views/database/externalAccountsForm.html' }
+        }
       })
       .state('database.external_transactions', {
         url: '/external_transactions',
