@@ -1,4 +1,4 @@
-var rippleGatewayApp = angular.module('rippleGatewayApp', ['ui.router']);
+var rippleGatewayApp = angular.module('rippleGatewayApp', ['ui.router', 'restangular']);
 
 rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {

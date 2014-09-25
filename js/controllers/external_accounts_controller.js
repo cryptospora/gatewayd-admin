@@ -1,18 +1,21 @@
 rippleGatewayApp.controller('ExternalAccountsCtrl', [
-  '$scope', 'UserService', 'ApiService', '$window', '$state', '$timeout',
-  function($scope, $user, $api, $window, $state, $timeout) {
+  '$scope', 'UserService', 'ApiService', '$window', '$state', '$timeout', 'Restangular',
+  function($scope, $user, $api, $window, $state, $timeout, Restangular) {
     "use strict";
 
-    console.log("state", $state);
+    var account = Restangular.all('v1/external_accounts');
+    var allaccounts = account.getList();
+
+    console.log("rest", account);
     var messages = {
-        create: 'External account created.',
-        update: 'External account updated.'
+        create: 'external account created.',
+        update: 'external account updated.'
     };
 
     var handleAccountMessage = function(err, res) {
       if (!err) {
         $scope.messageState = 'success';
-        $scope.successMessage = messages[$scope.crudType];
+        $scope.successMessage = messages[$scope.crudtype];
 
         $timeout(function() {
           $state.go('database.external_accounts');
@@ -32,16 +35,16 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     $scope.account = {};
 
     //todo: check for data
-    $scope.formType = "";
+    $scope.formtype = "";
 
     if (typeof $state.current.data !== "undefined") {
-      $scope.formType = $state.current.data.type;
+      $scope.formtype = $state.current.data.type;
     }
     $scope.messageState = '';
 
     //create
     $scope.createExternalAccount = function() {
-      $scope.crudType = "create";
+      $scope.crudtype = "create";
 
       console.log("state", $state);
 
@@ -49,15 +52,16 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     //read
-    $api.getExternalAccounts(function(err, res) {
-      if (!err) {
-        $scope.accounts = res.external_accounts;
-      }
-    });
+    //$api.getExternalAccounts(function(err, res) {
+      //if (!err) {
+        //$scope.accounts = res.external_accounts;
+      //}
+       //console.log("res", res);
+    //});
 
     //update
     $scope.updateExternalAccount = function($index) {
-      $scope.crudType = "update";
+      $scope.crudtype = "update";
       console.log('update', arguments);
 
       $api.updateExternalAccount($scope.accounts[$index].id, $scope.account, handleAccountMessage);
@@ -66,7 +70,7 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     //delete
     $scope.deleteExternalAccount = function(index) {
       var account = $scope.accounts[index],
-          confirmed = $window.confirm('Are you sure?');
+          confirmed = $window.confirm('are you sure?');
 
       if (confirmed) {
         $api.deleteExternalAccount(account.id, function(err, res) {
