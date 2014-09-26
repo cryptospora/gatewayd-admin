@@ -155,12 +155,6 @@ rippleGatewayApp.service('ApiService', ['$http', function($http) {
     .error(error(fn));
   };
 
-  API.prototype.getExternalAccounts = function(fn) {
-    $http({method: 'GET', url: '/v1/external_accounts'})
-    .success(success(fn))
-    .error(error(fn));
-  };
-
   API.prototype.getExternalTransactions = function(fn){
     $http({ method: 'GET', url: '/v1/external_transactions' })
     .success(success(fn))
