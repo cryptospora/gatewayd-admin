@@ -1,7 +1,9 @@
 var rippleGatewayApp = angular.module('rippleGatewayApp', ['ui.router', 'restangular']);
 
-rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider', 'RestangularProvider',
+  function($stateProvider, $urlRouterProvider, RestangularProvider) {
+    "use strict";
+
     $urlRouterProvider.otherwise("/login");
 
     $stateProvider

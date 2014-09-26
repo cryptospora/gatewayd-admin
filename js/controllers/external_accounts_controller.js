@@ -3,10 +3,16 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
   function($scope, $user, $api, $window, $state, $timeout, Restangular) {
     "use strict";
 
-    var account = Restangular.all('v1/external_accounts');
-    var allaccounts = account.getList();
+    Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+      console.log("data", data);
+      return data.external_accounts;
+    });
 
-    console.log("rest", account);
+    Restangular.all('v1/external_accounts').getList().then(function(accounts) {
+      console.log("accounts", accounts);
+      $scope.accounts = accounts;
+    });
+
     var messages = {
         create: 'external account created.',
         update: 'external account updated.'
