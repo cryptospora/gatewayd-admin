@@ -1,17 +1,7 @@
 rippleGatewayApp.controller('ExternalAccountsCtrl', [
-  '$scope', 'UserService', 'ApiService', '$window', '$state', '$timeout', 'Restangular',
-  function($scope, $user, $api, $window, $state, $timeout, Restangular) {
+  '$scope', 'UserService', 'ApiService', '$window', '$state', '$timeout', 'Restangular', 'ExternalAccountModel',
+  function($scope, $user, $api, $window, $state, $timeout, Restangular, ExternalAccountModel) {
     "use strict";
-
-    Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-      console.log("data", data);
-      return data.external_accounts;
-    });
-
-    Restangular.all('v1/external_accounts').getList().then(function(accounts) {
-      console.log("accounts", accounts);
-      $scope.accounts = accounts;
-    });
 
     var messages = {
         create: 'external account created.',
@@ -21,7 +11,7 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     var handleAccountMessage = function(err, res) {
       if (!err) {
         $scope.messageState = 'success';
-        $scope.successMessage = messages[$scope.crudtype];
+        $scope.successMessage = messages[$scope.crudType];
 
         $timeout(function() {
           $state.go('database.external_accounts');
@@ -39,39 +29,34 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     //set scope attributes
     $scope.accounts = [];
     $scope.account = {};
-
-    //todo: check for data
-    $scope.formtype = "";
-
-    if (typeof $state.current.data !== "undefined") {
-      $scope.formtype = $state.current.data.type;
-    }
     $scope.messageState = '';
+
+    //read
+    ExternalAccountModel.fetchExternalAccounts().then(function(accounts) {
+      $scope.accounts = accounts;
+    });
 
     //create
     $scope.createExternalAccount = function() {
-      $scope.crudtype = "create";
-
-      console.log("state", $state);
-
-      $api.createExternalAccount($scope.account, handleAccountMessage);
+      $scope.crudType = "create";
     };
 
-    //read
-    //$api.getExternalAccounts(function(err, res) {
-      //if (!err) {
-        //$scope.accounts = res.external_accounts;
-      //}
-       //console.log("res", res);
-    //});
+    $scope.submitCreate = function() {
+      $api.createExternalAccount($scope.account, handleAccountMessage);
+    }
 
     //update
-    $scope.updateExternalAccount = function($index) {
-      $scope.crudtype = "update";
-      console.log('update', arguments);
+    $scope.updateExternalAccount = function(index) {
+      $scope.crudType = "update";
 
-      $api.updateExternalAccount($scope.accounts[$index].id, $scope.account, handleAccountMessage);
+      ExternalAccountModel.getExternalAccount($scope.accounts[index].id).then(function(account) {
+        $scope.account = account;
+      });
     };
+
+    $scope.submitUpdate = function(index) {
+      $api.updateExternalAccount($scope.accounts[index].id, $scope.account, handleAccountMessage);
+    }
 
     //delete
     $scope.deleteExternalAccount = function(index) {

@@ -29,10 +29,10 @@
       </div>
     </div>
 
-    <div class='form-group' ng-switch='formType'>
+    <div class='form-group' ng-switch='crudType'>
       <div class='col-xs-offset-2 col-xs-10'>
         <button type='submit' class='btn btn-primary' ng-click="createExternalAccount()" ng-switch-when='create'>Create External Account</button>
-        <button type='submit' class='btn btn-warning' ng-click='updateExternalAccount($index)'  ng-switch-when='update'>Update External Account</button>
+        <button type='submit' class='btn btn-warning' ng-click='submitUpdate($index)'  ng-switch-when='update'>Update External Account</button>
       </div>
     </div>
 

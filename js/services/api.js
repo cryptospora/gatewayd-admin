@@ -1,5 +1,4 @@
 rippleGatewayApp.service('ApiService', ['$http', function($http) {
-
   function success(fn){
     return function(resp, status, headers, config){
       fn(null, resp);

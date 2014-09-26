@@ -4,6 +4,7 @@ rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider', 'RestangularPro
   function($stateProvider, $urlRouterProvider, RestangularProvider) {
     "use strict";
 
+  RestangularProvider.setDefaultHttpFields({cache: true});
     $urlRouterProvider.otherwise("/login");
 
     $stateProvider
@@ -68,9 +69,6 @@ rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider', 'RestangularPro
         templateUrl: '/views/database/externalAccounts.html'
       })
       .state('database.external_accounts.new', {
-        data: {
-          type: 'create'
-        },
         views: {
           "account-form": {
             controller: 'ExternalAccountsCtrl',
@@ -78,12 +76,8 @@ rippleGatewayApp.config(['$stateProvider', '$urlRouterProvider', 'RestangularPro
         }
       })
       .state('database.external_accounts.update', {
-        data: {
-          type: 'update'
-        },
         views: {
           "account-form": {
-            controller: 'ExternalAccountsCtrl',
             templateUrl: '/views/database/externalAccountsForm.html' }
         }
       })
