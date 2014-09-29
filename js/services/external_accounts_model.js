@@ -1,24 +1,42 @@
-rippleGatewayApp.factory('ExternalAccountModel', ['Restangular', function(Restangular) {
+rippleGatewayApp.factory('ExternalAccountModel', ['Restangular', '$rootScope', function(Restangular, $rootScope) {
   Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-    var dataOf = {
+    var dataConversion = {
       getList: data.external_accounts,
-      get: data.external_account
+      get: data.external_account,
+      post: data.externalAccount,
+      remove: data
     };
 
-    console.log(arguments);
-    console.log("data", data);
-    return dataOf[operation];
+    return dataConversion[operation];
   });
 
   var model = {};
 
-  model.fetchExternalAccounts = function() {
-    return Restangular.all('v1/external_accounts').getList();
+  var externalAccounts = Restangular.all('v1/external_accounts');
+  var accounts = externalAccounts.getList().$object;
+
+  var handleRefresh = function() {
+    $rootScope.$emit('refresh', accounts);
   };
 
-  model.getExternalAccount = function(id) {
-    // figure out some way to not query the database and get a single record
-    return Restangular.all('v1/external_accounts').get(id);
+  model.get = function() {
+    return accounts;
+  };
+
+  model.fetch = function() {
+    return externalAccounts.getList().$object;;
+  };
+
+  model.create = function(newAccount) {
+    return externalAccounts.post(newAccount).then(handleRefresh);
+  };
+
+  model.update = function(newAccount) {
+    return newAccount.put().then(handleRefresh);
+  };
+
+  model.delete = function(targetAccount) {
+    return targetAccount.remove().then(handleRefresh);
   };
 
   return model;
