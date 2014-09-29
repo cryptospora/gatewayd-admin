@@ -22,8 +22,9 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
       }
     };
 
-    if (!$user.isAdmin) {
+    if (!$user.isAdmin || !$user.isLogged) {
       $state.go('login');
+      return false;
     }
 
     //set scope attributes
