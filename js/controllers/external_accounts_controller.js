@@ -33,8 +33,10 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     $scope.messageState = '';
 
     //read
-    ExternalAccountModel.fetchExternalAccounts().then(function(accounts) {
-      $scope.accounts = accounts;
+    $scope.accounts = ExternalAccountModel.get();
+
+    $scope.$on('refresh', function(event, accounts) {
+      $scope.accounts = Restangular.copy(accounts);
     });
 
     //create
@@ -43,20 +45,21 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     $scope.submitCreate = function() {
-      $api.createExternalAccount($scope.account, handleAccountMessage);
+      ExternalAccountModel.create($scope.account).then(function(accounts) {
+        $state.go('database.external_accounts');
+      })
     }
 
     //update
     $scope.updateExternalAccount = function(index) {
       $scope.crudType = "update";
-
-      ExternalAccountModel.getExternalAccount($scope.accounts[index].id).then(function(account) {
-        $scope.account = account;
-      });
+      $scope.account = $scope.accounts[index];
     };
 
-    $scope.submitUpdate = function(index) {
-      $api.updateExternalAccount($scope.accounts[index].id, $scope.account, handleAccountMessage);
+    $scope.submitUpdate = function() {
+      ExternalAccountModel.update($scope.account).then(function() {
+        $state.go('database.external_accounts');
+      });
     }
 
     //delete
@@ -65,11 +68,7 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
           confirmed = $window.confirm('are you sure?');
 
       if (confirmed) {
-        $api.deleteExternalAccount(account.id, function(err, res) {
-          if (!err) {
-            $scope.accounts.splice(index, 1);
-          }
-        });
+        ExternalAccountModel.delete(account);
       }
     };
 }]);
