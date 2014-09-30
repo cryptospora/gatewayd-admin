@@ -41,7 +41,9 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     $scope.submitCreate = function() {
-      ExternalAccountModel.create($scope.account);
+      ExternalAccountModel.create($scope.account).then(function() {
+        $state.go('database.external_accounts');
+      });
     }
 
     //update
@@ -51,7 +53,9 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     $scope.submitUpdate = function() {
-      ExternalAccountModel.update($scope.account);
+      ExternalAccountModel.update($scope.account).then(function() {
+        $state.go('database.external_accounts');
+      });
     }
 
     //delete
