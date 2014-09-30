@@ -35,18 +35,15 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     //read
     $scope.accounts = ExternalAccountModel.get();
 
-    $scope.$on('refresh', function(event, accounts) {
-      $scope.accounts = Restangular.copy(accounts);
-    });
-
     //create
     $scope.createExternalAccount = function() {
       $scope.crudType = "create";
     };
 
     $scope.submitCreate = function() {
-      ExternalAccountModel.create($scope.account).then(function(accounts) {
+      ExternalAccountModel.create($scope.account).then(function(account) {
         $state.go('database.external_accounts');
+        $scope.accounts.push(account);
       })
     }
 
@@ -58,7 +55,10 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
 
     $scope.submitUpdate = function() {
       ExternalAccountModel.update($scope.account).then(function() {
+        var index = $scope.accounts.indexOf($scope.account);
+
         $state.go('database.external_accounts');
+        $scope.accounts[index] = $scope.account;
       });
     }
 
@@ -68,7 +68,9 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
           confirmed = $window.confirm('are you sure?');
 
       if (confirmed) {
-        ExternalAccountModel.delete(account);
+        ExternalAccountModel.delete(account).then(function() {
+          $scope.accounts.splice(index, 1);
+        });
       }
     };
 }]);
