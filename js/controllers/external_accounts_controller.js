@@ -41,10 +41,7 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     $scope.submitCreate = function() {
-      ExternalAccountModel.create($scope.account).then(function(account) {
-        $state.go('database.external_accounts');
-        $scope.accounts.push(account);
-      })
+      ExternalAccountModel.create($scope.account);
     }
 
     //update
@@ -54,12 +51,7 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
     };
 
     $scope.submitUpdate = function() {
-      ExternalAccountModel.update($scope.account).then(function() {
-        var index = $scope.accounts.indexOf($scope.account);
-
-        $state.go('database.external_accounts');
-        $scope.accounts[index] = $scope.account;
-      });
+      ExternalAccountModel.update($scope.account);
     }
 
     //delete
@@ -68,9 +60,7 @@ rippleGatewayApp.controller('ExternalAccountsCtrl', [
           confirmed = $window.confirm('are you sure?');
 
       if (confirmed) {
-        ExternalAccountModel.delete(account).then(function() {
-          $scope.accounts.splice(index, 1);
-        });
+        ExternalAccountModel.delete(account);
       }
     };
 }]);
