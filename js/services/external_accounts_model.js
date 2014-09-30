@@ -1,5 +1,5 @@
 rippleGatewayApp.factory('ExternalAccountModel', ['Restangular', function(Restangular) {
-  Restangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+  Restangular.addResponseInterceptor(function(data, operation) {
     var dataConversion = {
       getList: data.external_accounts,
       get: data.external_account,
@@ -12,28 +12,35 @@ rippleGatewayApp.factory('ExternalAccountModel', ['Restangular', function(Restan
   });
 
   var model = {};
-
-  var externalAccounts = Restangular.all('v1/external_accounts');
-  var accounts = externalAccounts.getList().$object;
+  var mainRoute = Restangular.all('v1/external_accounts');
+  var collection = mainRoute.getList().$object;
 
   model.get = function() {
-    return accounts;
+    return collection;
   };
 
   model.fetch = function() {
-    return externalAccounts.getList().$object;
+    return mainRoute.getList().then(function(masterCollection) {
+      collection = masterCollection;
+    });
   };
 
-  model.create = function(newAccount) {
-    return externalAccounts.post(newAccount);
+  model.create = function(newModel) {
+    return mainRoute.post(newModel).then(function(restangularizedModel) {
+      collection.push(restangularizedModel);
+    });
   };
 
-  model.update = function(newAccount) {
-    return newAccount.put();
+  model.update = function(updatedModel) {
+    return updatedModel.put().then(function() {
+      collection[collection.indexOf(updatedModel)] = updatedModel;
+    });
   };
 
-  model.delete = function(targetAccount) {
-    return targetAccount.remove();
+  model.delete = function(targetModel) {
+    return targetModel.remove().then(function() {
+      collection.splice(collection.indexOf(targetModel), 1);
+    });
   };
 
   return model;
