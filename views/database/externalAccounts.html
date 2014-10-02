@@ -17,13 +17,15 @@
     </thead>
     <tbody>
       <tr ng-repeat='account in accounts'>
-        <td>{{ account.data }}</td>
+
         <td>{{ account.id }}</td>
-        <td>{{ account.name }}</td>
+        <td>{{ account.address }}</td>
+        <td>{{ account.type }}</td>
+        <td>{{ account.data }}</td>
         <td>{{ account.user_id }}</td>
         <td>{{ account.createdAt }}</td>
         <td>{{ account.updatedAt }}</td>
-        <td>{{ account.uid }}</td>
+
         <td>
           <input type='button' class='btn btn-warning btn-block' ng-click='updateExternalAccount($index)' value='Update'>
           <input type='button' class='btn btn-danger btn-block' ng-click='deleteExternalAccount($index)' value='Delete'>
