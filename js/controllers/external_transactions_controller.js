@@ -1,33 +1,52 @@
 rippleGatewayApp.controller('ExternalTransactionsCtrl', [
-  '$scope',
-  'UserService',
-  '$location',
-  'ApiService',
-  '$window', function($scope, $user, $location, $api, $window) {
-    if (!$user.isAdmin) {  $location.path('/login') };
+  '$scope', 'UserService', 'ApiService', '$window', '$state', '$timeout',
+    'ExternalTransactionsModel',
+  function($scope, $user, $api, $window, $state, $timeout, Model) {
+    "use strict";
+
+    if (!$user.isAdmin || !$user.isLogged) {
+      $state.go('login');
+      return false;
+    }
 
     $scope.transactions = [];
 
-    $api.getExternalTransactions(function(err, res) {
-      if (!err) {
-        $scope.transactions = res.external_transactions;
-      }
-    });
+    //read
+    $scope.transactions = Model.get();
 
-    $scope.deleteExternalTransaction = function(index) {
-      var transaction = $scope.transactions[index];
-      var confirmed = $window.confirm('Are you sure?')
-
-      if (confirmed) {
-        $api.deleteExternalTransaction(transaction.id, function(err, res) {
-          if (!err) {
-            $scope.transactions.splice(index, 1);
-          }
-        });
-      }
+    //create
+    $scope.create = function() {
+      $scope.crudType = "create";
+      $scope.transaction = {};
     };
 
-    $scope.updateExternalTransaction = function(index) {
-      $location.path('/database/external_transactions/' + $scope.transactions[index].id + '/update');
+    $scope.submitCreate = function() {
+      Model.create($scope.transaction).then(function() {
+        $state.go('database.external_transactions');
+      });
+    };
+
+    //update
+    $scope.update = function(index) {
+      $scope.currentIndex = index;
+      $scope.crudType = "update";
+      $scope.transaction = $scope.transactions[index].clone();
+    };
+
+    $scope.submitUpdate = function() {
+      Model.update($scope.transaction).then(function() {
+        $state.go('database.external_transactions');
+        $scope.transactions[$scope.currentIndex] = $scope.transaction;
+      });
+    };
+
+    //delete
+    $scope.remove = function(index) {
+      var transaction = $scope.transactions[index],
+          confirmed = $window.confirm('are you sure?');
+
+      if (confirmed) {
+        Model.delete(transaction);
+      }
     };
 }]);
